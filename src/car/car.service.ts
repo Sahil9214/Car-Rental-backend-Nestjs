@@ -16,10 +16,11 @@ export class CarService {
     return cars;
   }
 
-  async findById(id: string): Promise<Car> {
+  async findById(id: string): Promise<Car | null> {
     const car = await this.carModel.findById(id);
     if (!car) {
-      throw new NotFoundException('Car not found');
+      // If car is not found, return null instead of throwing an exception
+      return null;
     }
     return car;
   }

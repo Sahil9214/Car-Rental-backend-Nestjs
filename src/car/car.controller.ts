@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CarService } from './car.service';
 import { Car } from './schema/car.schema';
-
+import { NotFoundException } from '@nestjs/common';
 @Controller('car')
 export class CarController {
   constructor(private carService: CarService) {}
@@ -19,8 +19,12 @@ export class CarController {
     return this.carService.findAll();
   }
   @Get(':id')
-  async getById(@Param() id: string): Promise<Car> {
-    return this.carService.findById(id);
+  async getById(@Param('id') id: string): Promise<Car> {
+    const car = await this.carService.findById(id);
+    if (!car) {
+      throw new NotFoundException('Car not found');
+    }
+    return car;
   }
   @Post()
   async createCar(@Body() car: Car): Promise<Car> {
