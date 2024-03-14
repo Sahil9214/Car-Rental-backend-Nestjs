@@ -13,6 +13,8 @@ export class Car {
   @Prop()
   make: string;
   @Prop()
+  image: string;
+  @Prop()
   model: string;
   @Prop()
   year: string;
